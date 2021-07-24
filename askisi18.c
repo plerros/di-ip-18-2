@@ -48,9 +48,11 @@ int handlerror(int *error, int *parenthesiscount) {
 			printf("error: Empty input ' ' or '( )' isn't a valid mathematical expression.\n");
 		}					//error 4 == empty calcline initialization
 		else if (*error == 5) {
+			printf("\n");
 			return 0;
 		}													//error 5 == no error just EOF
-		else if (*error == 6) {printf("error: There can be at most one sign per number\n");
+		else if (*error == 6) {
+			printf("error: There can be at most one sign per number\n");
 		}							//error 6 == too many signs
 		return 0;
 	} else {
@@ -236,7 +238,7 @@ int main()
 													printf("Remaining stdin:[%c", current);
 #endif
 		int current = 0;
-		while (current != '\n') {
+		while (current != '\n' && error != 5) {
 			current = input(&error);
 #ifdef DEBUG
 													printf("%c", current);
