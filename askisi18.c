@@ -1,5 +1,6 @@
 #include <stdio.h>
 //to show debug printf's gcc ... -DDEBUG
+//#define DEBUG
 //======================================================================================================================================================
 int operatorchk(int current)
 {
@@ -131,14 +132,14 @@ int get_number(int current, int *error, int *parenthesiscount)
 	int number;
 	if (current == '(') {
 #ifdef DEBUG
-													for (i=0;i<*parenthesiscount;i++) {printf("\t");}printf("(\n");
+													for (int i = 0;i<*parenthesiscount;i++) {printf("\t");}printf("(\n");
 #endif
 		++(*parenthesiscount);
 		number = calcline(0, '+', error, parenthesiscount);
 		if (*error)
 			return (0);
 #ifdef DEBUG
-													for (i=0;i<*parenthesiscount;i++) {printf("\t");}printf(")\n");
+													for (int i = 0;i<*parenthesiscount;i++) {printf("\t");}printf(")\n");
 #endif
 	}
 	else{
@@ -180,7 +181,7 @@ int calcline(int prevnumber, int operator, int *error, int *parenthesiscount)
 	if (*error)
 		return (0);
 #ifdef DEBUG
-													int i;for (i=0;i<*parenthesiscount;i++) {printf("\t");} printf("-  -  -  -  -  -  -  -  -  \n");for (i=0;i<*parenthesiscount;i++) {printf("\t");} printf("initial prevnumber is: %d\noperator is: %c\n", prevnumber, operator);
+													for (int i = 0;i<*parenthesiscount;i++) {printf("\t");} printf("-  -  -  -  -  -  -  -  -  \n");for (int i = 0;i<*parenthesiscount;i++) {printf("\t");} printf("initial prevnumber is: %d\noperator is: %c\n", prevnumber, operator);
 #endif
 	if (endchk(current)) {
 		ungetc(current, stdin);
@@ -193,13 +194,13 @@ int calcline(int prevnumber, int operator, int *error, int *parenthesiscount)
 		if (*error)
 			return (0);
 #ifdef DEBUG
-													for (i=0;i<*parenthesiscount;i++) {printf("\t");}printf("number is: %d\n", number);
+													for (int i = 0;i<*parenthesiscount;i++) {printf("\t");}printf("number is: %d\n", number);
 #endif
 		operatornew = get_operator(error);
 			if (*error)
 				return (0);
 #ifdef DEBUG
-													for (i=0;i<*parenthesiscount;i++) {printf("\t");}printf("the operatornew is: %c\n", operatornew);
+													for (int i = 0;i<*parenthesiscount;i++) {printf("\t");}printf("the operatornew is: %c\n", operatornew);
 #endif
 		if (operatornew == '*' && current != '\n') {
 			number = calcline(number,'*',error, parenthesiscount);
@@ -207,7 +208,7 @@ int calcline(int prevnumber, int operator, int *error, int *parenthesiscount)
 			if (*error)
 				return (0);
 #ifdef DEBUG
-													for (i=0;i<*parenthesiscount;i++) {printf("\t");}printf("multnumber is: %d\nnewtoperator is: %c\n", number, operatornew);
+													for (int i = 0;i<*parenthesiscount;i++) {printf("\t");}printf("multnumber is: %d\nnewtoperator is: %c\n", number, operatornew);
 #endif
 		}
 		if (operator == '+') {
@@ -224,7 +225,7 @@ int calcline(int prevnumber, int operator, int *error, int *parenthesiscount)
 		}
 		operator = operatornew;
 #ifdef DEBUG
-													for (i=0;i<*parenthesiscount;i++) {printf("\t");}printf("-----------------------------\n");for (i=0;i<*parenthesiscount;i++) {printf("\t");}printf("prevnumber is: %d\nnewoperator is: %c\n", prevnumber, operator);
+													for (int i = 0;i<*parenthesiscount;i++) {printf("\t");}printf("-----------------------------\n");for (int i = 0;i<*parenthesiscount;i++) {printf("\t");}printf("prevnumber is: %d\nnewoperator is: %c\n", prevnumber, operator);
 #endif
 		current = spaceskip(input(error), error);
 		if (*error)
