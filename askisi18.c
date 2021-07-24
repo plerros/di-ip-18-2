@@ -56,6 +56,7 @@ int get_operator(int *error){
 	return (0);
 }
 //======================================================================================================================================================
+int calcline(int prevnumber, int operator, int *error, int *parenthesiscount);
 int get_number(int current, int *error, int *parenthesiscount){
 	int number;
 	if(current == '('){
@@ -138,6 +139,7 @@ int main(){
 	int error = 0, parenthesiscount = 0;
 
 	for(counter = 1;error != 5;counter++, error = 0, parenthesiscount = 0){
+		current = 0;
 		result = calcline(0,'+', &error, &parenthesiscount);
 		printf("Result %d: ",counter);
 		if(error || parenthesiscount){handlerror(&error, &parenthesiscount);}
