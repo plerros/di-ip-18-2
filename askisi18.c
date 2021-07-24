@@ -87,8 +87,8 @@ int get_number(int current, int *error, int *parenthesiscount){
 			number += current - '0';
 		}
 		number = signn(sign, number);
+		ungetc(current, stdin);
 	}
-	ungetc(current, stdin);
 	return number;
 }
 //======================================================================================================================================================
