@@ -237,15 +237,13 @@ int read_term(int *error, int *parenthesiscount)
 //======================================================================================================================================================
 int read_expression(int *error, int *parenthesiscount)
 {
-	int prevnumber = 0;
+	int total = 0;
 	int operator = '+';
-	int number, operatornew, current = spaceskip(error);
+	int current = spaceskip(error);
 	if (*error)
 		return 0;
 #ifdef DEBUG
 													debug_tabulate(*parenthesiscount);  printf("-  -  -  -  -  -  -  -  -  \n");
-													debug_tabulate(*parenthesiscount);  printf("initial prevnumber is: %d\n", prevnumber);
-													debug_tabulate(*parenthesiscount);  printf("operator is: %c\n", operator);
 #endif
 	if (is_end(current)) {
 		ungetc(current, stdin);
@@ -255,27 +253,24 @@ int read_expression(int *error, int *parenthesiscount)
 
 	while (!is_end(current)) {
 		ungetc(current, stdin);
-		number = read_term(error, parenthesiscount);
+		int number = read_term(error, parenthesiscount);
 		if (*error)
 			return 0;
 
-		operatornew = get_operator(error);
-			if (*error)
-				return 0;
-#ifdef DEBUG
-													debug_tabulate(*parenthesiscount); printf("the operatornew is: %c\n", operatornew);
-#endif
 		if (operator == '+') {
-			prevnumber += number;
+			total += number;
 		}
 		else if (operator == '-') {
-			prevnumber -= number;
+			total -= number;
 		}
-		operator = operatornew;
+
+		operator = get_operator(error);
+		if (*error)
+			return 0;
 #ifdef DEBUG
 													debug_tabulate(*parenthesiscount); printf("-----------------------------\n");
-													debug_tabulate(*parenthesiscount); printf("prevnumber is: %d\n", prevnumber);
-													debug_tabulate(*parenthesiscount); printf("newoperator is: %c\n", operator);
+													debug_tabulate(*parenthesiscount); printf("total is: %d\n", total);
+													debug_tabulate(*parenthesiscount); printf("operator is: %c\n", operator);
 #endif
 		current = spaceskip(error);
 		if (*error)
@@ -283,9 +278,9 @@ int read_expression(int *error, int *parenthesiscount)
 	}
 	if (is_end(current))
 		ungetc(current, stdin);
-	if (operatornew != 0)
+	if (operator != 0)
 		*error = 3;
-	return prevnumber;
+	return total;
 }
 //======================================================================================================================================================
 int main()
