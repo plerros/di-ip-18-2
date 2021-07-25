@@ -178,7 +178,7 @@ int read_snumber(int *error, int *parenthesiscount)
 	return number;
 }
 
-int read_expression(int prevnumber, int operator, int *error, int *parenthesiscount);
+int read_expression(int *error, int *parenthesiscount);
 int read_factor(int *error, int *parenthesiscount)
 {
 	int number;
@@ -189,7 +189,7 @@ int read_factor(int *error, int *parenthesiscount)
 	printf("(\n");
 #endif
 		++(*parenthesiscount);
-		number = read_expression(0, '+', error, parenthesiscount);
+		number = read_expression(error, parenthesiscount);
 		if (*error)
 			return 0;
 
@@ -235,8 +235,10 @@ int read_term(int *error, int *parenthesiscount)
 	return number;
 }
 //======================================================================================================================================================
-int read_expression(int prevnumber, int operator, int *error, int *parenthesiscount)
+int read_expression(int *error, int *parenthesiscount)
 {
+	int prevnumber = 0;
+	int operator = '+';
 	int number, operatornew, current = spaceskip(error);
 	if (*error)
 		return 0;
@@ -293,7 +295,7 @@ int main()
 	for (int counter = 1; error != 5; counter++) {
 		error = 0;
 		int parenthesiscount = 0;
-		int result = read_expression(0, '+', &error, &parenthesiscount);
+		int result = read_expression(&error, &parenthesiscount);
 
 		int current = 0;
 		if (error) {
